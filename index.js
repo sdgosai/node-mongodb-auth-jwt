@@ -4,7 +4,8 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = exp();
 app.use(exp.json());
-require('dotenv').config();
+const dotenv = require('dotenv')
+dotenv.config({ path : './.env'});
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Require Database ...
@@ -16,5 +17,5 @@ app.use('/api', indexRoutes);
 
 // Port open ...
 app.listen(process.env.PORT, () => {
-    console.log('server started');
+    console.log(`node server live at ${process.env.PORT} ...`);
 })
