@@ -12,10 +12,7 @@ const userSchema = new Schema({
     name: {
         type: String,
     },
-    email: {
-        type: String,
-    },
-    phone: {
+    age: {
         type: Number,
     },
     gender: {
@@ -23,7 +20,10 @@ const userSchema = new Schema({
         default: "male",
         enum: ['male', 'female']
     },
-    age: {
+    email: {
+        type: String,
+    },
+    phone: {
         type: Number,
     },
     password: {
@@ -33,26 +33,7 @@ const userSchema = new Schema({
     role: {
         type: Number,
         default: 0,
-        enum: [0, 2] // 0 = admin, 2 = user
     },
-    social: [{
-        facebook: {
-            type: String,
-            required: false
-        },
-        instagram: {
-            type: String,
-            required: false
-        },
-        github: {
-            type: String,
-            required: false
-        },
-        twitter: {
-            type: String,
-            required: false
-        },
-    }],
     is_deleted: {
         type: Boolean,
         default: false,
