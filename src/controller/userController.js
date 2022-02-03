@@ -6,7 +6,7 @@ const catchAsyncerr = require('../middleware/catchAsyncerr');
 
 // Registration Controller ...
 exports.registrationControll = catchAsyncerr(async (req, res, next) => {
-    const { name, email, phone, gender, age, password, role } = req.body;
+    const { name, email, phone, gender, age, password } = req.body;
     if (!name) {
         res.send({
             success: false,
@@ -33,7 +33,7 @@ exports.registrationControll = catchAsyncerr(async (req, res, next) => {
             })
         } else {
             const user = new User({
-                name: name, phone: phone, gender: gender, email: email, password: password, age: age, role: role, avatar: "my-avatar"
+                name: name, phone: phone, gender: gender, email: email, password: password, age: age, avatar: "my-avatar"
             })
             user.save().then(save => {
                 if (save) {
@@ -73,7 +73,6 @@ exports.LoginControll = catchAsyncerr(async (req, res, next) => {
             message: 'Please provide valid details'
         })
     }
-
     User.findOne({ $or: [{ phone }, { email }] }).select('+password +role -createdAt -updatedAt +is_deleted')
         .then(user => {
             if (user) {
@@ -108,3 +107,4 @@ exports.LoginControll = catchAsyncerr(async (req, res, next) => {
             })
         })
 });
+
