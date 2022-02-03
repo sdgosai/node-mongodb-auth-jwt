@@ -1,4 +1,7 @@
+const { User } = require('../models/userModel')
 const catchError = require('../middleware/catchAsyncerr');
+const { subs } = require('../models/subscribersModel');
+const {verify} = require('jsonwebtoken')
 
 const rolePermission = catchError(async (req, res, next) => {
     const { token } = await req.headers;
@@ -17,19 +20,23 @@ const rolePermission = catchError(async (req, res, next) => {
         })
     }
     const Decode = verify(originalToken, process.env.SECRET);
-    const user = await users.findById(Decode.id).select("+userRole");
-    if (!(user.userRole === 0)) {
-        return res.status(403).json({
-            success: false,
-            message: "You dont have permissions for this page"
-        })
-    }
-    if (user.id == id) {
-        return res.status(403).json({
-            success: false,
-            message: "You dont have permissions for apply changes on your self"
-        })
-    }
+    User.findById(Decode.id).then(admin => {
+       if(!admin){
+return res.status(400).json({
+    success:false,
+    message:'Please login to continue'
+})
+       }else{
+        if(!(admin.role === 0)){
+            return res.status(400).json({
+                success:false,
+                message:'Please login to continue'
+            })
+        }
+       }
+    }).catch(err => {
+        console.log(err);
+    })
     next();
 });
 
